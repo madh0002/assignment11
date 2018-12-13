@@ -1,7 +1,7 @@
 properties([pipelineTriggers([githubPush()])])
 node('linux') {
     stage("Setup") {
-       git 'https://github.com/UST-SEIS665/seis665-03-fall-2018-assignment-11-madh0002.git'
+       git 'https://github.com/madh0002/assignment11.git'
        sh 'aws s3 cp s3://madhu-assignment10-bucket/classweb.html /workspace/index.html '
     }
     stage("Build") {
