@@ -12,6 +12,6 @@ node('linux') {
        sh 'docker ps'                       
        sh 'curl -s 10.120.1.68'
        sh 'docker stop $(docker ps -q --filter ancestor=classweb:1.0)'     
-       sh 'docker ps -a'
+       sh 'docker rm $(docker ps -a -q --filter ancestor=classweb:1.0)'     
     }
 }
