@@ -2,4 +2,4 @@
 FROM nginx 
 LABEL maintainer="Madhu Venkat madh0002@stthomas.edu"
 EXPOSE 80
-COPY docker/html/index.html /usr/share/nginx/html/
+COPY docker/index.html /usr/share/nginx/html/
