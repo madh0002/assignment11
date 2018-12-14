@@ -5,9 +5,8 @@ node('linux') {
        sh 'aws s3 cp s3://madhu-assignment10-bucket/classweb.html /workspace/index.html '
     }
     stage("Build") {
-       sh 'docker ls '
-       sh 'docker pwd '
        sh 'docker build -t "classweb:1.0" .'
+       sh 'docker image ls'
     }
     stage("Test") {
        sh 'aws s3 cp /workspace/java-pipeline/dist/*.jar s3://madhu-assignment10-bucket/'
