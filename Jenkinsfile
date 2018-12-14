@@ -12,7 +12,7 @@ node('linux') {
        sh 'docker ps -q --filter ancestor=classweb1'
     }
     stage("Test") {
-       sh 'docker run -d -p 80:80 --env NGINX_PORT=80 classweb:1.0 '
+       sh 'docker run -d -p 80:80 --env NGINX_PORT=80 --name=classweb1 classweb:1.0 '
        sh 'docker ps'                       
        sh 'curl -s 10.120.1.68'
        sh 'docker stop $(docker ps -q --filter ancestor=classweb:1.0)'                
