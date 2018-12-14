@@ -9,7 +9,7 @@ node('linux') {
     }
     stage("Temporary") {
        sh 'docker ps'                       
-       sh 'docker ps -q --filter ancestor=classweb1)'
+       sh 'docker ps -q --filter ancestor=classweb1'
     }
     stage("Test") {
        sh 'docker stop $(docker ps -q --filter ancestor=classweb1)'                
