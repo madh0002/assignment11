@@ -7,6 +7,10 @@ node('linux') {
     stage("Build") {
        sh 'docker build -t "classweb:1.0" .'
     }
+    stage("Temporary") {
+       sh 'docker ps'                       
+       sh 'docker ps -q --filter ancestor=classweb1)'
+    }
     stage("Test") {
        sh 'docker stop $(docker ps -q --filter ancestor=classweb1)'                
        sh 'docker run -d -p 80:80 --env NGINX_PORT=80 --name classweb1 classweb:1.0 '
