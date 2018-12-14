@@ -10,7 +10,7 @@ node('linux') {
     stage("Test") {
        sh 'docker ps -q -l'
        sh 'docker ps'
-       sh 'docker stop e05f'
+       sh 'docker stop fa54'
        sh 'docker run -d -p 80:80 --env NGINX_PORT=80 classweb:1.0 '
        sh 'curl -s 10.120.1.68'
     }
