@@ -8,6 +8,6 @@ node('linux') {
        sh 'docker build -t "classweb:1.0" .'
     }
     stage("Test") {
-       sh 'aws s3 cp /workspace/java-pipeline/dist/*.jar s3://madhu-assignment10-bucket/'
+       sh 'docker run classweb -d -p 80:80 -env NGINX_PORT=80'
     }
 }
