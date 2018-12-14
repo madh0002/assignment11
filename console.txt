@@ -1,0 +1,95 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/madh0002/assignment11.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] properties
+[Pipeline] node
+Running on be17576c6de6 in /workspace/docker-pipeline
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Setup)
+[Pipeline] git
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/madh0002/assignment11.git # timeout=10
+Fetching upstream changes from https://github.com/madh0002/assignment11.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/madh0002/assignment11.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 2ebedbcefc2aec2212b11458b957cd741a3e12ed (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 2ebedbcefc2aec2212b11458b957cd741a3e12ed
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 2ebedbcefc2aec2212b11458b957cd741a3e12ed
+Commit message: "Update Jenkinsfile"
+ > git rev-list --no-walk 11d6386f246170c5dd194e257f9fe5df4ad13577 # timeout=10
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ aws s3 cp s3://madhu-assignment10-bucket/classweb.html ./index.html
+Completed 61 Bytes/61 Bytes (1.4 KiB/s) with 1 file(s) remaining
+download: s3://madhu-assignment10-bucket/classweb.html to ./index.html
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build)
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker build -t classweb:1.0 .
+Sending build context to Docker daemon  426.5kB
+
+Step 1/4 : FROM nginx
+ ---> 568c4670fa80
+Step 2/4 : LABEL maintainer="Madhu Venkat madh0002@stthomas.edu"
+ ---> Using cache
+ ---> 420595d70d64
+Step 3/4 : EXPOSE 80
+ ---> Using cache
+ ---> 2036574a8408
+Step 4/4 : COPY ./index.html /usr/share/nginx/html/
+ ---> Using cache
+ ---> ee55b69e1112
+Successfully built ee55b69e1112
+Successfully tagged classweb:1.0
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker run -d -p 80:80 --env NGINX_PORT=80 --name=classweb1 classweb:1.0
+984f91d54d40b44bf8ef9f446b220dc75468212ec578add048a20e920f7ed71c
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                  PORTS                NAMES
+984f91d54d40        classweb:1.0        "nginx -g 'daemon of…"   1 second ago        Up Less than a second   0.0.0.0:80->80/tcp   classweb1
+be17576c6de6        jenkinsagent:seis   "docker-entrypoint.s…"   18 minutes ago      Up 18 minutes                                jenkinsagent.1.zwve357vlus8m9yfgpwqammtn
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ curl -s 10.120.1.68
+<html>
+<body>
+<h1>My class webserver</h1>
+</body>
+</html>[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker ps -q --filter ancestor=classweb:1.0
++ docker stop 984f91d54d40
+984f91d54d40
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker ps -a -q --filter ancestor=classweb:1.0
++ docker rm 984f91d54d40
+984f91d54d40
+[Pipeline] sh
+[docker-pipeline] Running shell script
++ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+be17576c6de6        jenkinsagent:seis   "docker-entrypoint.s…"   18 minutes ago      Up 18 minutes                           jenkinsagent.1.zwve357vlus8m9yfgpwqammtn
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
